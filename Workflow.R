@@ -31,17 +31,20 @@ gse$dex %<>% relevel("untrt")
 gse$dex
 gse$dex <- relevel(gse$dex, "untrt")
 
+#3.1
+library("DESeq2")
+dds <- DESeqDataSet(gse, design = ~ cell + dex)
 
 #4.1
 nrow(dds)
-eep <- rowSums(counts(dds)) > 1
+keep <- rowSums(counts(dds)) > 1
 dds <- dds[keep,]
 nrow(dds)
 # at least 3 samples with a count of 10 or higher
 keep <- rowSums(counts(dds) >= 10) >= 3
 
 #5.1
-dds <- DESeq2(dds)
+dds <- DESeq(dds)
 
 #5.2
 res <- results(dds)
