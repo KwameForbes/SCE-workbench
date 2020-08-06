@@ -1,3 +1,4 @@
+
 #2.3
 library("airway")
 dir <-system.file("extdata", package = "airway", mustWork = TRUE )
@@ -77,4 +78,24 @@ ggplot(geneCounts, aes(x = dex, y = count, color = cell)) +
   scale_y_log10() +  geom_beeswarm(cex = 3)
 ggplot(geneCounts, aes(x = dex, y = count, color = cell, group = cell)) +
   scale_y_log10() + geom_point(size = 3) + geom_line()
+
+#Take e.g. topGene and then see if you can match up the gene with a single cell dataset.
+#so because airway is human, we will need to find a human single cell dataset. we can try the PBMC dataset
+
+BiocManager::install("TENxPBMCData")
+library(TENxPBMCData)
+tenx_pbmc4k <- TENxPBMCData(dataset = "pbmc4k")
+tenx_pbmc4k
+args(TENxPBMCData)
+counts(tenx_pbmc4k)
+
+options(DelayedArray.auto.block.size = 1e9)
+lib.sizes <- colSums(counts(tenx_pbmc4k))
+n.exprs <- colSums(counts(tenx_pbmc4k) != 0L)
+ave.exprs <- rowMeans(counts(tenx_pbmc4k))
+
+destination <- tempfile()
+saveRDS(tenx_pbmc4k, file = destination)
+
+sessionInfo()
 
