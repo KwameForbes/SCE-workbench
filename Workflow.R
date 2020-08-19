@@ -16,6 +16,7 @@ se <- tximeta(coldata)
 dim(se)
 head(rownames(se))
 
+
 #2.5
 data(gse)
 gse
@@ -67,6 +68,19 @@ sum(res$padj < 0.1, na.rm=TRUE)
 resSig <- subset(res, padj < 0.1)
 head(resSig[ order(resSig$log2FoldChange), ])
 head(resSig[ order(resSig$log2FoldChange, decreasing = TRUE), ])
+head(rownames(res))
+rownames(res) <- sub("\\..*","",rownames(res))
+
+min_adj_pval <- which.max(res$padj)
+min_adj_pval
+rownames(res)[min_adj_pval]
+my.gene <- rownames(res)[min_adj_pval]
+my.gene %in% rownames(sce)
+sum(counts(sce[my.gene,]))
+
+logcts <- logcounts(sce[my.gene,])
+plotColData(sce, y=I(logcts), x="label")
+
 
 #6.1
 topGene <- rownames(res)[which.min(res$padj)]
