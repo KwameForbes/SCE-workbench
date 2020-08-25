@@ -104,18 +104,19 @@ saveRDS(tenx_pbmc4k, file = destination)
 
 sessionInfo()
 sce <- tenx_pbmc4k
-??logNormCounts
+sce <- logNormCounts(sce)
 library(scater)
 min_adj_pval <- which.min(res$padj)
 min_adj_pval
 rownames(res)[min_adj_pval]
 library(SingleCellExperiment)
 
-logcts <- logcounts(sce[my.gene,])
+logcts <- logcounts(sce)[my.gene,]
 plotColData(sce, y=I(logcts), x="label")
 
 
 my.gene <- rownames(res)[min_adj_pval]
 my.gene %in% rownames(sce)
 sum(counts(sce[my.gene,]))
+
 
