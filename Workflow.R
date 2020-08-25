@@ -16,7 +16,6 @@ se <- tximeta(coldata)
 dim(se)
 head(rownames(se))
 
-
 #2.5
 data(gse)
 gse
@@ -71,15 +70,7 @@ head(resSig[ order(resSig$log2FoldChange, decreasing = TRUE), ])
 head(rownames(res))
 rownames(res) <- sub("\\..*","",rownames(res))
 
-min_adj_pval <- which.max(res$padj)
-min_adj_pval
-rownames(res)[min_adj_pval]
-my.gene <- rownames(res)[min_adj_pval]
-my.gene %in% rownames(sce)
-sum(counts(sce[my.gene,]))
 
-logcts <- logcounts(sce[my.gene,])
-plotColData(sce, y=I(logcts), x="label")
 
 
 #6.1
@@ -112,4 +103,19 @@ destination <- tempfile()
 saveRDS(tenx_pbmc4k, file = destination)
 
 sessionInfo()
+sce <- tenx_pbmc4k
+??logNormCounts
+library(scater)
+min_adj_pval <- which.min(res$padj)
+min_adj_pval
+rownames(res)[min_adj_pval]
+library(SingleCellExperiment)
+
+logcts <- logcounts(sce[my.gene,])
+plotColData(sce, y=I(logcts), x="label")
+
+
+my.gene <- rownames(res)[min_adj_pval]
+my.gene %in% rownames(sce)
+sum(counts(sce[my.gene,]))
 
