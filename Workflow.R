@@ -105,6 +105,20 @@ saveRDS(tenx_pbmc4k, file = destination)
 sessionInfo()
 sce <- tenx_pbmc4k
 sce <- logNormCounts(sce)
+
+sce <- runPCA(sce)
+sce <- runTSNE(sce)
+sce <- runUMAP(sce)
+
+library(scran)
+g <- buildSNNGraph(sce, k=10, use.dimred = 'PCA')
+clust <- igraph::cluster_walktrap(g)$membership
+table(clust)
+
+library(scater)
+colLabels(sce) <- factor(clust)
+plotReducedDim(sce, "TSNE", colour_by="label")
+
 library(scater)
 min_adj_pval <- which.min(res$padj)
 min_adj_pval
