@@ -75,7 +75,8 @@ rownames(res) <- sub("\\..*","",rownames(res))
 
 #6.1
 topGene <- rownames(res)[which.min(res$padj)]
-plotCounts(dds, gene = topGene, intgroup=c("dex"))
+rownames(dds) <- rownames(res)
+plotCounts(dds, gene = my.gene, intgroup=c("dex"))
 library("ggbeeswarm")
 geneCounts <- plotCounts(dds, gene = topGene, intgroup = c("dex","cell"),
                          returnData = TRUE)
@@ -116,21 +117,38 @@ clust <- igraph::cluster_walktrap(g)$membership
 table(clust)
 
 library(scater)
-colLabels(sce) <- factor(clust)
-plotReducedDim(sce, "TSNE", colour_by="label")
+colLabels(sce) <- pred$labels
+#plotReducedDim(sce, "TSNE", colour_by="label")
 
-library(scater)
+#library(scater)
 min_adj_pval <- which.min(res$padj)
 min_adj_pval
 rownames(res)[min_adj_pval]
-library(SingleCellExperiment)
+#library(SingleCellExperiment)
+
+#my.gene <- rownames(res)[min_adj_pval]
+o <- order(res$padj)
+my.gene <- rownames(res)[o[2]]
+my.gene %in% rownames(sce)
+sum(counts(sce[my.gene,]))
 
 logcts <- logcounts(sce)[my.gene,]
 plotColData(sce, y=I(logcts), x="label")
 
+#Annotating
+BiocManager::install("SingleR")
+BiocManager::install("org.Hs.eg.db")
 
-my.gene <- rownames(res)[min_adj_pval]
-my.gene %in% rownames(sce)
-sum(counts(sce[my.gene,]))
+sce2 <- sce
+library(org.Hs.eg.db)
+rownames(sce2) <- mapIds(org.Hs.eg.db, rownames(sce2), "SYMBOL", "ENSEMBL")
+
+library(SingleR)
+
+ref <- BlueprintEncodeData()
+pred <- SingleR(test=sce2, ref=ref, labels=ref$label.main)
+table(pred$labels)
+
+table(pred$labels, colLabels(sce))
 
 
