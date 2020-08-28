@@ -128,7 +128,7 @@ rownames(res)[min_adj_pval]
 
 #my.gene <- rownames(res)[min_adj_pval]
 o <- order(res$padj)
-my.gene <- rownames(res)[o[2]]
+my.gene <- rownames(res)[o[8]]
 my.gene %in% rownames(sce)
 sum(counts(sce[my.gene,]))
 
@@ -138,6 +138,7 @@ plotColData(sce, y=I(logcts), x="label")
 #Annotating
 BiocManager::install("SingleR")
 BiocManager::install("org.Hs.eg.db")
+BiocManager::install('pheatmap')
 
 sce2 <- sce
 library(org.Hs.eg.db)
@@ -151,4 +152,19 @@ table(pred$labels)
 
 table(pred$labels, colLabels(sce))
 
+plotScoreHeatmap(pred)
 
+integrateWithSingleCell<- function(res, dds) {
+  # figure out organism from dds
+  # provide relevant single cell dataset to user
+  ans <- menu(c("hamburger","hotdog"), "pick a meal")
+  # do all your hard work
+  return(list(res=res, dds=dds, ans=ans))
+}
+plotter <- function(dat) {
+  stopifnot(all(names(dat) == c("res", "dds", "ans")))
+  plot(dat$res, dat$dds)
+}
+# example code:
+dat <- foo(res, dds)
+plotter(dat)
