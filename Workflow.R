@@ -156,11 +156,38 @@ plotScoreHeatmap(pred)
 
 integrateWithSingleCell<- function(res, dds) {
   # figure out organism from dds
-  # provide relevant single cell dataset to user
-  ans <- menu(c("hamburger","hotdog"), "pick a meal")
-  # do all your hard work
-  return(list(res=res, dds=dds, ans=ans))
+  s <- rownames(dds)
+  p <- startsWith(s, "ENSG")
+  if ( p[1] == TRUE) {
+    print("Your dataset appears to be Homo sapien.")
+    ans <- menu(c("Is this True?","Is this false?"))
+  }else {
+    ans2 <- menu(c("Is this a Homo sapien dataset?","Is this a mouse dataset?","Other"))
+    if (ans2 == 1){
+      print("We will begin integrating your Homo sapien dataset with a Homo sapien single cell dataset.")
+    }else if (ans2 ==2){
+      print("We will begin integrating your mouse dataset with a mouse single cell dataset.")
+    }else{
+      "We currently only support Homo sapien and mouse datasets."
+    }}
+  if (ans == 1){
+    print("We will begin integrating your Homo sapien dataset with a Homo sapien single cell dataset.")
+  }else {
+    ans2 <- menu(c("Is this a Homo sapien dataset?","Is this a mouse dataset?","Other"))
+    if (ans2 == 1){
+      print("We will begin integrating your Homo sapien dataset with a Homo sapien single cell dataset.")
+    }else if (ans2 ==2){
+      print("We will begin integrating your mouse dataset with a mouse single cell dataset.")
+    }else{
+      print("We currently only support Homo sapien and mouse datasets.")
+    }
+    #return(list(res=res, dds=dds, ans=ans))
+  }
 }
+  # provide relevant single cell dataset to user
+  # do all your hard work
+  #return(list(res=res, dds=dds, ans=ans))
+
 plotter <- function(dat) {
   stopifnot(all(names(dat) == c("res", "dds", "ans")))
   plot(dat$res, dat$dds)
