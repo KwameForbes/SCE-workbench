@@ -120,6 +120,7 @@ library(scater)
 colLabels(sce) <- pred$labels
 #plotReducedDim(sce, "TSNE", colour_by="label")
 
+
 #library(scater)
 min_adj_pval <- which.min(res$padj)
 min_adj_pval
@@ -128,12 +129,16 @@ rownames(res)[min_adj_pval]
 
 #my.gene <- rownames(res)[min_adj_pval]
 o <- order(res$padj)
-my.gene <- rownames(res)[o[8]]
+my.gene <- rownames(res)[o[3]]
 my.gene %in% rownames(sce)
 sum(counts(sce[my.gene,]))
 
+
 logcts <- logcounts(sce)[my.gene,]
 plotColData(sce, y=I(logcts), x="label")
+
+plotCounts(dds, gene = my.gene, intgroup=c("dex"))
+
 
 #Annotating
 BiocManager::install("SingleR")
@@ -158,36 +163,45 @@ integrateWithSingleCell<- function(res, dds) {
   # figure out organism from dds
   s <- rownames(dds)
   p <- startsWith(s, "ENSG")
+  r <- startsWith(s, "ENSMUSG")
   if ( p[1] == TRUE) {
-    print("Your dataset appears to be Homo sapien.")
-    ans <- menu(c("Is this True?","Is this false?"))
+    print("Your dataset appears to be Human.")
+    
+    
+  }else if (r[1] == TRUE) {
+    print("Your dataset appears to be mouse.")
+    
   }else {
-    ans2 <- menu(c("Is this a Homo sapien dataset?","Is this a mouse dataset?","Other"))
-    if (ans2 == 1){
-      print("We will begin integrating your Homo sapien dataset with a Homo sapien single cell dataset.")
-    }else if (ans2 ==2){
-      print("We will begin integrating your mouse dataset with a mouse single cell dataset.")
-    }else{
-      "We currently only support Homo sapien and mouse datasets."
-    }}
-  if (ans == 1){
-    print("We will begin integrating your Homo sapien dataset with a Homo sapien single cell dataset.")
-  }else {
-    ans2 <- menu(c("Is this a Homo sapien dataset?","Is this a mouse dataset?","Other"))
-    if (ans2 == 1){
-      print("We will begin integrating your Homo sapien dataset with a Homo sapien single cell dataset.")
-    }else if (ans2 ==2){
-      print("We will begin integrating your mouse dataset with a mouse single cell dataset.")
-    }else{
-      print("We currently only support Homo sapien and mouse datasets.")
-    }
-    #return(list(res=res, dds=dds, ans=ans))
+    print("We only support human and mouse datasets.")
+  }  
+  tab1 <- data.frame(name=c("pbmc4k","pbmc8k"),
+                     pub=c("Hansen 2020","Hansen 2020"),
+                     nCells=c(4340,8381),
+                     description=c("PBMCs","PBMCs"))
+  tab2 <- data.frame(name=c("testing","testing"),
+                     pub=c("Hansen 2020","Hansen 2020"),
+                     nCells=c(0,0),
+                     description=c("PBMCs","PBMCs"))
+  if (p[1] == TRUE) {
+    print("Choose a human single-cell to integrate with your dataset.")
+    print(tab1)
+    ans <- menu(tab1$name)
+    sce <- do.call(tab1$name[ans], list())
+  }else if (r[1]== TRUE) {
+    print("Choose a mouse single-cell to integrate with your dataset.")
+    print(tab2)
+    ans <- menu(tab2$name)
+    sce <- do.call(tab2$name[ans], list())
   }
-}
-  # provide relevant single cell dataset to user
-  # do all your hard work
+  #sce <- do.call(tab$name[ans], list())
+  #print(tab)
+  #ans <- menu(tab$name)
+  
   #return(list(res=res, dds=dds, ans=ans))
-
+}
+# provide relevant single cell dataset to user
+# do all your hard work
+#return(list(res=res, dds=dds, ans=ans))
 plotter <- function(dat) {
   stopifnot(all(names(dat) == c("res", "dds", "ans")))
   plot(dat$res, dat$dds)
