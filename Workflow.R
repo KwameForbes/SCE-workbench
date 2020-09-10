@@ -14,7 +14,7 @@ file.exists(coldata$files)
 library("tximeta")
 se <- tximeta(coldata)
 dim(se)
-head(rownames(se))
+#head(rownames(se))
 
 #2.5
 data(gse)
