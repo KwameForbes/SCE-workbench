@@ -182,6 +182,15 @@ integrateWithSingleCell<- function(res, dds) {
                      pub=c("Hansen 2020","Hansen 2020"),
                      nCells=c(0,0),
                      description=c("PBMCs","PBMCs"))
+  pbmc4k <- function(){
+    #BiocManager::install("TENxPBMCData")
+    #library(TENxPBMCData)
+    tenx_pbmc4k <- TENxPBMCData(dataset = "pbmc4k")
+    sce <- tenx_pbmc4k
+    args(TENxPBMCData)
+    counts(tenx_pbmc4k)
+    return(sce)
+  }
   if (p[1] == TRUE) {
     print("Choose a human single-cell to integrate with your dataset.")
     print(tab1)
@@ -193,6 +202,7 @@ integrateWithSingleCell<- function(res, dds) {
     ans <- menu(tab2$name)
     sce <- do.call(tab2$name[ans], list())
   }
+  sce
   #sce <- do.call(tab$name[ans], list())
   #print(tab)
   #ans <- menu(tab$name)
