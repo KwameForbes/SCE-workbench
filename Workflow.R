@@ -161,54 +161,34 @@ plotScoreHeatmap(pred)
 
 integrateWithSingleCell<- function(res, dds) {
   # figure out organism from dds
-  s <- rownames(dds)
-  p <- startsWith(s, "ENSG")
-  r <- startsWith(s, "ENSMUSG")
-  if ( p[1] == TRUE) {
-    print("Your dataset appears to be Human.")
-    
-    
-  }else if (r[1] == TRUE) {
-    print("Your dataset appears to be mouse.")
-    
-  }else {
-    print("We only support human and mouse datasets.")
-  }  
-  tab1 <- data.frame(name=c("pbmc4k","pbmc8k"),
-                     pub=c("Hansen 2020","Hansen 2020"),
-                     nCells=c(4340,8381),
-                     description=c("PBMCs","PBMCs"))
-  tab2 <- data.frame(name=c("testing","testing"),
-                     pub=c("Hansen 2020","Hansen 2020"),
-                     nCells=c(0,0),
-                     description=c("PBMCs","PBMCs"))
-  pbmc4k <- function(){
-    #BiocManager::install("TENxPBMCData")
-    #library(TENxPBMCData)
-    tenx_pbmc4k <- TENxPBMCData(dataset = "pbmc4k")
-    sce <- tenx_pbmc4k
-    args(TENxPBMCData)
-    counts(tenx_pbmc4k)
-    return(sce)
-  }
-  if (p[1] == TRUE) {
-    print("Choose a human single-cell to integrate with your dataset.")
-    print(tab1)
-    ans <- menu(tab1$name)
-    sce <- do.call(tab1$name[ans], list())
-  }else if (r[1]== TRUE) {
-    print("Choose a mouse single-cell to integrate with your dataset.")
-    print(tab2)
-    ans <- menu(tab2$name)
-    sce <- do.call(tab2$name[ans], list())
-  }
-  sce
+  
+  org <- if(startsWith(rownames(dds[1]), "ENSG")) "human" else "mouse" 
+  
+  print(paste("Your dataset appears to be",org))
+  
+  tab <- data.frame(
+    func=c("BaronPancreasData","BaronPancreasData","TENxPBMCData","TENxPBMCData","test"),
+    data=c("human","mouse","pbmc4k","pbmc8k","human"),
+    arg=c("dataset","dataset","which","which","which"),
+    orgm=c("human","mouse","human","human","human"),
+    pub=c("Hansen 2020","Hansen 2020","Hansen 2020","Hansen 2020","test 2020"),
+    nCells=c(4340,8381,4340,8381,0000),
+    desc=c("PBMCs","PBMCs","PBMCs","PBMCs","Red")
+  )
+  
+  print(paste("Choose a",org,"single-cell dataset to integrate with."))
+  tab <- tab[tab$orgm == org,]
+  tab <- tab[,c("func","data","arg","pub","nCells","desc")]
+  #order(tab)
+  #tab <- rownames(tab) <- seq_len(nrow(tab))
+  print(tab)
+  ans <-menu(tab$data)
   #sce <- do.call(tab$name[ans], list())
-  #print(tab)
-  #ans <- menu(tab$name)
+  
   
   #return(list(res=res, dds=dds, ans=ans))
 }
+
 # provide relevant single cell dataset to user
 # do all your hard work
 #return(list(res=res, dds=dds, ans=ans))
