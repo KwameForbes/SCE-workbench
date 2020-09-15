@@ -169,25 +169,25 @@ integrateWithSingleCell<- function(res, dds) {
   tab <- data.frame(
     func=c("BaronPancreasData","BaronPancreasData","TENxPBMCData","TENxPBMCData","test"),
     data=c("human","mouse","pbmc4k","pbmc8k","human"),
-    scRNAseq=c(TRUE,TRUE,FALSE,FALSE,FALSE,FALSE),
+    scRNAseq=c(TRUE,TRUE,FALSE,FALSE,FALSE),
     orgm=c("human","mouse","human","human","human"),
     pub=c("Hansen 2020","Hansen 2020","Hansen 2020","Hansen 2020","test 2020"),
     nCells=c(4340,8381,4340,8381,0000),
-    desc=c("PBMCs","PBMCs","PBMCs","PBMCs","Red"),
+    desc=c("PBMCs","PBMCs","PBMCs","PBMCs","Red")
   )
   
   print(paste("Choose a",org,"single-cell dataset to integrate with."))
   tab <- tab[tab$orgm == org,]
-  tab <- tab[,c("func","data","arg","pub","nCells","desc")]
+  tab <- tab[,c("func","data", "pub","nCells","desc")]
   #order(tab)
   rownames(tab) <- seq_len(nrow(tab))
   print(tab)
-  ans <-menu(paste(tab$func, tab$data, collapse="-"))
+  ans <-menu(paste(tab$func, tab$data, sep="-"))
   # if the dataset is in the scRNAseq package...
   if (tab$scRNAseq[ans]) {
-    sce <- do.call(tab$name[ans], list(which=tab$data[arg], ensembl=TRUE))
+    sce <- do.call(tab$func[ans], list(which=tab$data[ans], ensembl=TRUE))
   } else {
-    sce <- do.call(tab$name[ans], list(dataset=tab$data[arg]))
+    sce <- do.call(tab$func[ans], list(dataset=tab$data[ans]))
   }
   return(list(res=res, dds=dds, sce=sce))
 }
