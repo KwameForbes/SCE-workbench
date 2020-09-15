@@ -162,31 +162,34 @@ plotScoreHeatmap(pred)
 integrateWithSingleCell<- function(res, dds) {
   # figure out organism from dds
   
-  org <- if(startsWith(rownames(dds[1]), "ENSG")) "human" else "mouse" 
+  org <- if (startsWith(rownames(dds[1]), "ENSG")) "human" else "mouse" 
   
   print(paste("Your dataset appears to be",org))
   
   tab <- data.frame(
     func=c("BaronPancreasData","BaronPancreasData","TENxPBMCData","TENxPBMCData","test"),
     data=c("human","mouse","pbmc4k","pbmc8k","human"),
-    arg=c("dataset","dataset","which","which","which"),
+    scRNAseq=c(TRUE,TRUE,FALSE,FALSE,FALSE,FALSE),
     orgm=c("human","mouse","human","human","human"),
     pub=c("Hansen 2020","Hansen 2020","Hansen 2020","Hansen 2020","test 2020"),
     nCells=c(4340,8381,4340,8381,0000),
-    desc=c("PBMCs","PBMCs","PBMCs","PBMCs","Red")
+    desc=c("PBMCs","PBMCs","PBMCs","PBMCs","Red"),
   )
   
   print(paste("Choose a",org,"single-cell dataset to integrate with."))
   tab <- tab[tab$orgm == org,]
   tab <- tab[,c("func","data","arg","pub","nCells","desc")]
   #order(tab)
-  #tab <- rownames(tab) <- seq_len(nrow(tab))
+  rownames(tab) <- seq_len(nrow(tab))
   print(tab)
-  ans <-menu(tab$data)
-  #sce <- do.call(tab$name[ans], list())
-  
-  
-  #return(list(res=res, dds=dds, ans=ans))
+  ans <-menu(paste(tab$func, tab$data, collapse="-"))
+  # if the dataset is in the scRNAseq package...
+  if (tab$scRNAseq[ans]) {
+    sce <- do.call(tab$name[ans], list(which=tab$data[arg], ensembl=TRUE))
+  } else {
+    sce <- do.call(tab$name[ans], list(dataset=tab$data[arg]))
+  }
+  return(list(res=res, dds=dds, sce=sce))
 }
 
 # provide relevant single cell dataset to user
