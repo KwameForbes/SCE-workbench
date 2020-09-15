@@ -1,4 +1,4 @@
-
+#WORKFLOW
 #2.3
 library("airway")
 dir <-system.file("extdata", package = "airway", mustWork = TRUE )
