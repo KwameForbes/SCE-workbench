@@ -178,11 +178,11 @@ integrateWithSingleCell<- function(res, dds) {
   
   print(paste("Choose a",org,"single-cell dataset to integrate with."))
   tab <- tab[tab$orgm == org,]
-  tab <- tab[,c("func","data", "pub","nCells","desc")]
+  tab2 <- tab[,c("func","data", "pub","nCells","desc")]
   #order(tab)
-  rownames(tab) <- seq_len(nrow(tab))
-  print(tab)
-  ans <-menu(paste(tab$func, tab$data, sep="-"))
+  rownames(tab2) <- seq_len(nrow(tab2))
+  print(tab2)
+  ans <-menu(paste(tab2$func, tab2$data, sep="-"))
   # if the dataset is in the scRNAseq package...
   if (tab$scRNAseq[ans]) {
     sce <- do.call(tab$func[ans], list(which=tab$data[ans], ensembl=TRUE))
