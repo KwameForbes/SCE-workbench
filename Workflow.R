@@ -183,21 +183,40 @@ integrateWithSingleCell<- function(res, dds) {
   rownames(tab2) <- seq_len(nrow(tab2))
   print(tab2)
   ans <-menu(paste(tab2$func, tab2$data, sep="-"))
+  if (!requireNamespace(package=ans, quietly=TRUE)) {
+    message(paste0("Package: '",tab$func[ans], "' not installed."))
+    ask <- askYesNo("Would you like to install package?")
+    if(ask == TRUE) BiocManager::install(tab$func[ans]) 
+    else stop("Package would need to be installed.", call. = FALSE)
+  }
+  if (!requireNamespace(package=ans, quietly=TRUE)) {
+    message("Package installed successfully.")
+  }else message("Package needs to be installed.")
   # if the dataset is in the scRNAseq package...
   if (tab$scRNAseq[ans]) {
     # if only one dataset within the function...
     if (is.na(tab$data[ans])) {
+      print("HI")
       sce <- do.call(tab$func[ans], list(ensembl=TRUE))
     } else {
+      print("HI2")
       sce <- do.call(tab$func[ans], list(which=tab$data[ans], ensembl=TRUE))
     }
   } else {
     # if only one dataset within the function...
     if (is.na(tab$data[ans])) {
+      print("HI3")
       sce <- do.call(tab$func[ans], list())
     } else {
+      print("HI4")
       sce <- do.call(tab$func[ans], list(dataset=tab$data[ans]))
     }
+  }
+  if (!requireNamespace(package=ans, quietly=TRUE)) {
+    message(paste0("Package: '",ans, "' not installed, would you like..."))
+            
+            BiocManager::install(ans)
+            
   }
   return(list(res=res, dds=dds, sce=sce))
 }
