@@ -185,9 +185,19 @@ integrateWithSingleCell<- function(res, dds) {
   ans <-menu(paste(tab2$func, tab2$data, sep="-"))
   # if the dataset is in the scRNAseq package...
   if (tab$scRNAseq[ans]) {
-    sce <- do.call(tab$func[ans], list(which=tab$data[ans], ensembl=TRUE))
+    # if only one dataset within the function...
+    if (is.na(tab$data[ans])) {
+      sce <- do.call(tab$func[ans], list(ensembl=TRUE))
+    } else {
+      sce <- do.call(tab$func[ans], list(which=tab$data[ans], ensembl=TRUE))
+    }
   } else {
-    sce <- do.call(tab$func[ans], list(dataset=tab$data[ans]))
+    # if only one dataset within the function...
+    if (is.na(tab$data[ans])) {
+      sce <- do.call(tab$func[ans], list())
+    } else {
+      sce <- do.call(tab$func[ans], list(dataset=tab$data[ans]))
+    }
   }
   return(list(res=res, dds=dds, sce=sce))
 }
