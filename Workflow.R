@@ -183,6 +183,7 @@ integrateWithSingleCell<- function(res, dds) {
   print(tab2)
   ans <-menu(paste(tab2$func, tab2$data, sep="-"))
   pkg <- tab$func[ans]
+  pkg
   if (!requireNamespace(package=pkg, quietly=TRUE)) {
     message(paste0("Package: '",pkg, "' not installed."))
     ask <- askYesNo("Would you like to install package?")
@@ -194,12 +195,13 @@ integrateWithSingleCell<- function(res, dds) {
     if (!requireNamespace(package=pkg, quietly=TRUE)) {
       message("Package installed successfully.")
     } else {
-      stop("Package needs to be installe.")
+      stop("Package needs to be installed.")
     }
   }
 
   # load package
   require(pkg)
+ 
 
   # if the dataset is in the scRNAseq package...
   if (tab$scRNAseq[ans]) {
@@ -234,3 +236,4 @@ plotter <- function(dat) {
 # example code:
 dat <- foo(res, dds)
 plotter(dat)
+
