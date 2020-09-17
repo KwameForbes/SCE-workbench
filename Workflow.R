@@ -200,7 +200,7 @@ integrateWithSingleCell<- function(res, dds) {
   }
 
   # load package
-  require(pkg)
+  require(pkg, character.only = TRUE)
  
 
   # if the dataset is in the scRNAseq package...
