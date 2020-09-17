@@ -212,12 +212,6 @@ integrateWithSingleCell<- function(res, dds) {
       sce <- do.call(tab$func[ans], list(dataset=tab$data[ans]))
     }
   }
-  if (!requireNamespace(package=ans, quietly=TRUE)) {
-    message(paste0("Package: '",ans, "' not installed, would you like..."))
-            
-            BiocManager::install(ans)
-            
-  }
   return(list(res=res, dds=dds, sce=sce))
 }
 
