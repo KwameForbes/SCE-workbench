@@ -179,19 +179,28 @@ integrateWithSingleCell<- function(res, dds) {
   print(paste("Choose a",org,"single-cell dataset to integrate with."))
   tab <- tab[tab$orgm == org,]
   tab2 <- tab[,c("func","data", "pub","nCells","desc")]
-  #order(tab)
   rownames(tab2) <- seq_len(nrow(tab2))
   print(tab2)
   ans <-menu(paste(tab2$func, tab2$data, sep="-"))
-  if (!requireNamespace(package=ans, quietly=TRUE)) {
-    message(paste0("Package: '",tab$func[ans], "' not installed."))
+  pkg <- tab$func[ans]
+  if (!requireNamespace(package=pkg, quietly=TRUE)) {
+    message(paste0("Package: '",pkg, "' not installed."))
     ask <- askYesNo("Would you like to install package?")
-    if(ask == TRUE) BiocManager::install(tab$func[ans]) 
-    else stop("Package would need to be installed.", call. = FALSE)
+    if (ask) {
+      BiocManager::install(pkg)
+    } else {
+      stop("Package would need to be installed.")
+    }
+    if (!requireNamespace(package=pkg, quietly=TRUE)) {
+      message("Package installed successfully.")
+    } else {
+      stop("Package needs to be installe.")
+    }
   }
-  if (!requireNamespace(package=ans, quietly=TRUE)) {
-    message("Package installed successfully.")
-  }else message("Package needs to be installed.")
+
+  # load package
+  require(pkg)
+
   # if the dataset is in the scRNAseq package...
   if (tab$scRNAseq[ans]) {
     # if only one dataset within the function...
