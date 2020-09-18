@@ -194,12 +194,13 @@ integrateWithSingleCell<- function(res, dds) {
     if (!requireNamespace(package=pkg, quietly=TRUE)) {
       message("Package installed successfully.")
     } else {
-      stop("Package needs to be installe.")
+      stop("Package needs to be installed.")
     }
   }
 
   # load package
   require(pkg)
+ 
 
   # if the dataset is in the scRNAseq package...
   if (pkg == "scRNAseq") {
@@ -234,3 +235,4 @@ plotter <- function(dat) {
 # example code:
 dat <- foo(res, dds)
 plotter(dat)
+
