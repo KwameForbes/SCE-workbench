@@ -167,9 +167,9 @@ integrateWithSingleCell<- function(res, dds) {
   print(paste("Your dataset appears to be",org))
   
   tab <- data.frame(
-    func=c("BaronPancreasData","BaronPancreasData","TENxPBMCData","TENxPBMCData","test"),
+    pkg=c("TENxPBMCData","TENxPBMCData") ### TODO
+    func=c("BaronPancreasData","BaronPancreasData",,"test"), ### TODO
     data=c("human","mouse","pbmc4k","pbmc8k","human"),
-    scRNAseq=c(TRUE,TRUE,FALSE,FALSE,FALSE),
     orgm=c("human","mouse","human","human","human"),
     pub=c("Hansen 2020","Hansen 2020","Hansen 2020","Hansen 2020","test 2020"),
     nCells=c(4340,8381,4340,8381,0000),
@@ -178,11 +178,11 @@ integrateWithSingleCell<- function(res, dds) {
   
   print(paste("Choose a",org,"single-cell dataset to integrate with."))
   tab <- tab[tab$orgm == org,]
-  tab2 <- tab[,c("func","data", "pub","nCells","desc")]
+  tab2 <- tab[,c("pkg","func","data", "pub","nCells","desc")]
   rownames(tab2) <- seq_len(nrow(tab2))
   print(tab2)
   ans <-menu(paste(tab2$func, tab2$data, sep="-"))
-  pkg <- tab$func[ans]
+  pkg <- tab$pkg[ans]
   if (!requireNamespace(package=pkg, quietly=TRUE)) {
     message(paste0("Package: '",pkg, "' not installed."))
     ask <- askYesNo("Would you like to install package?")
@@ -202,7 +202,7 @@ integrateWithSingleCell<- function(res, dds) {
   require(pkg)
 
   # if the dataset is in the scRNAseq package...
-  if (tab$scRNAseq[ans]) {
+  if (pkg == "scRNAseq") {
     # if only one dataset within the function...
     if (is.na(tab$data[ans])) {
       print("HI")
