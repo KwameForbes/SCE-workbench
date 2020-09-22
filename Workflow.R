@@ -165,19 +165,12 @@ integrateWithSingleCell<- function(res, dds) {
   org <- if (startsWith(rownames(dds[1]), "ENSG")) "human" else "mouse" 
   
   print(paste("Your dataset appears to be",org))
-  
-  tab <- data.frame(
-    pkg=c("TENxPBMCData","TENxPBMCData") ### TODO
-    func=c("BaronPancreasData","BaronPancreasData",,"test"), ### TODO
-    data=c("human","mouse","pbmc4k","pbmc8k","human"),
-    orgm=c("human","mouse","human","human","human"),
-    pub=c("Hansen 2020","Hansen 2020","Hansen 2020","Hansen 2020","test 2020"),
-    nCells=c(4340,8381,4340,8381,0000),
-    desc=c("PBMCs","PBMCs","PBMCs","PBMCs","Red")
-  )
+
+  # TODO: Mike will change this line later when you create your package
+  tab <- read.csv("singleCellTab.csv")
   
   print(paste("Choose a",org,"single-cell dataset to integrate with."))
-  tab <- tab[tab$orgm == org,]
+  tab <- tab[tab$org == org,]
   tab2 <- tab[,c("pkg","func","data", "pub","nCells","desc")]
   rownames(tab2) <- seq_len(nrow(tab2))
   print(tab2)

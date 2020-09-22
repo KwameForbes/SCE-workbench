@@ -1,4 +1,4 @@
-pkg,func,data,orgm,pub,nCells,desc
+pkg,func,data,org,pub,nCells,desc
 TENxPBMCData,TENxPBMCData,pbmc68k,human,Hansen 2020,68000,PBMC
 TENxPBMCData,TENxPBMCData,frozen_pbmc_donor_a,human,Hansen 2020,2900,PBMC
 TENxPBMCData,TENxPBMCData,frozen_pbmc_donor_b,human,Hansen 2020,7800,PBMC
