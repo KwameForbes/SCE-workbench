@@ -15,8 +15,8 @@ scRNAseq,BuettnerESCData,NA,mouse,Buettner 2015,288,Mouse embryonic stem cells
 scRNAseq,CampbellBrainData,NA,mouse,Campbell 2017,21086,Mouse brain
 scRNAseq,ChenBrainData,NA,mouse,Chen 2017,14437,Mouse brain
 scRNAseq,GrunHSCData,NA,mouse,Grun 2016,1915,Mouse Haematopoietic stem cells
-scRNAseq,KolodziejczykESCData,NA,mouse,Kolodziejczyk 2015,704,Mouse mebryonic stem cells	
-scRNAseq,LaMannoBrainData,human-es,human,LaManno 2016,1715,Human embryonic stem cells	
+scRNAseq,KolodziejczykESCData,NA,mouse,Kolodziejczyk 2015,704,Mouse mebryonic stem cells
+scRNAseq,LaMannoBrainData,human-es,human,LaManno 2016,1715,Human embryonic stem cells
 scRNAseq,LaMannoBrainData,human-embryo,human,LaManno 2016,1977,Human embryonic midbrain
 scRNAseq,LaMannoBrainData,human-ips,human,LaManno 2016,337,Human induced pluripotent stem cells
 scRNAseq,LaMannoBrainData,mouse-adult,mouse,LaManno 2016,243,Mouse adult dopaminergic neurons
@@ -27,11 +27,11 @@ scRNAseq,LunSpikeInData,416b,mouse,Lun 2017,192,416B cells
 scRNAseq,LunSpikeInData,tropho,mouse,Lun 2017,192,Mouse trophoblasts
 scRNAseq,MacoskoRetinaData,NA,mouse,Macosko 2015,49300,Mouse retina
 scRNAseq,MarquesBrainData,NA,mouse,Marques 2016,5069,Mouse brain
-scRNAseq,MessmerESCData,NA,human,Messmer 2019,1344,Human embryonic stem cells	
+scRNAseq,MessmerESCData,NA,human,Messmer 2019,1344,Human embryonic stem cells
 scRNAseq,MuraroPancreasData,NA,human,Muraro 2016,3072,Human pancreas
-scRNAseq,NestorowaHSCData,NA,mouse,Nestorowa 2016,1920,Mouse haematopoietic stem cells	
-scRNAseq,PaulHSCData,NA,mouse,Paul 2015,10368,Mouse haematopoietic stem cells	
-scRNAseq,RichardTCellData,NA,mouse,Richard 2018,572,Mouse CD8+ T cells	
+scRNAseq,NestorowaHSCData,NA,mouse,Nestorowa 2016,1920,Mouse haematopoietic stem cells
+scRNAseq,PaulHSCData,NA,mouse,Paul 2015,10368,Mouse haematopoietic stem cells
+scRNAseq,RichardTCellData,NA,mouse,Richard 2018,572,Mouse CD8+ T cells
 scRNAseq,RomanovBrainData,NA,mouse,Romanov 2017,2881,Mouse brain
 scRNAseq,SegerstolpePancreasData,NA,human,Segerstolpe 2016,3514,Human pancreas
 scRNAseq,ShekharRetinaData,NA,mouse,Shekhar 2016,44994,Mouse retina
