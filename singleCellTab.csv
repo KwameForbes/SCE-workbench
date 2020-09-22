@@ -8,9 +8,9 @@ TENxPBMCData,TENxPBMCData,pbmc3k,human,Hansen 2020,3000,PBMC
 TENxPBMCData,TENxPBMCData,pbmc6k,human,Hansen 2020,6000,PBMC
 TENxPBMCData,TENxPBMCData,pbmc4k,human,Hansen 2020,4000,PBMC
 TENxPBMCData,TENxPBMCData,pbmc8k,human,Hansen 2020,8000,PBMC
-scRNAseq,BachMammaryData,NA,mouse,25806,Bach 2017,Mouse mammary gland
-scRNAseq,BaronPancreasData,human,human,8569,Baron 2016,Human pancreas
-scRNAseq,BaronPancreasData,mouse,mouse,1886,Baron 2016,Mouse pancreas
+scRNAseq,BachMammaryData,NA,mouse,Bach 2017,25806,Mouse mammary gland
+scRNAseq,BaronPancreasData,human,human,Baron 2016,8569,Human pancreas
+scRNAseq,BaronPancreasData,mouse,mouse,Baron 2016,1886,Mouse pancreas
 scRNAseq,BuettnerESCData,NA,mouse,Buettner 2015,288,Mouse embryonic stem cells
 scRNAseq,CampbellBrainData,NA,mouse,Campbell 2017,21086,Mouse brain
 scRNAseq,ChenBrainData,NA,mouse,Chen 2017,14437,Mouse brain
